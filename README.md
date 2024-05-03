@@ -54,3 +54,10 @@ Finance for outsiders can be confusing, and the traditional way of interacting w
 | 6 | Test & Marketing      | June 7 | June 13|
 
 ## Monitoring and Evaluation
+For every task above, the corresponding evaluation could be:
+1. A **PDF file** that clearly demonstrated the development process of the whole app.
+2. A local **LLM** that can chat about finance in general, and can analyze bank statement.
+3. Can use function/prompt to retrieve my bank account data, do some simple analysis based on the data.
+4. Depends on the progress, I will either deliver an UI using Streamlit or React.
+5. If the product is done at this stage, I will share the product in OIT slack channel and my friends.
+
