@@ -1,6 +1,10 @@
 # MoneyChat 💵 🤖️
 
-## Background
+Table of Contents:
+- [WireFrame](#WireFrame)
+
+## WireFrame
+### Background
 This is a project I plan to finish during the [Out In Tech](https://outintech.com/) Mentorship program (4/11-6/13, 2024), under the guidance of Raika Dail (Huge thanks to Raika!! 🥰)
 
 - **What is MoneyChat?**
@@ -9,14 +13,14 @@ MoneyChat is a chatbot that helps you manage your money. It is built using the G
 - **What inspired MoneyChat?**
 I am a broke college student and I found my bank's app to be very confusing and not very accessible. I wanted to create a chatbot that would help me manage my money in a more user-friendly way.
 
-## Objectives
+### Objectives
 - **What can MoneyChat do?**
 A ChatBot that's connected with customers' bank account and provide them with information and visualization about their transactions. It can also help customers refine their budget and provide them with financial advice.
 <br><br>
 - **Why is it helpful?**
 Finance for outsiders can be confusing, and the traditional way of interacting with website or app charts is not the future. Chatting with an AI that knows everything about your finance, MoneyChat will be like a personal finance assistant/doctor, keep clients finance condition healthy.
 
-### Some use case scenarios
+#### Some use case scenarios
 **"Hey, MoneyChat!"**
 
 1. "What's my last month's overall expenses like? Rank each category by expenses, and draw me a pie chart."<br><br>
@@ -29,21 +33,21 @@ Finance for outsiders can be confusing, and the traditional way of interacting w
 
 5. "Have I defaulted on any my credit card dues? Give me my credit card activities for every month."<br><br>
 
-## Scope 
-### Ene Goal of the Product
+### Scope 
+#### Ene Goal of the Product
 - A knowledgeable Finance Chatbot who knows a lot about personal finance and finance in general.
 - Backend connect to Third-party banks like Bank of America and JPMorgan Chase.
 - A neat, beautiful and interactive website to interact with using automatic front-end techniques like Streamlit.
 
-### Mimimum Viable Product
+#### Mimimum Viable Product
 - A ChatBot that can chat based on our monthly bank's statements(Since Bank's API may not be accessible for me.)
 
-### Stretching Goals
+#### Stretching Goals
 1. Building the wesbite's UI using **React.js**
 2. Adding **dashboards** to display clients' most common viewed graphs or data.(Sort of like Tableau baords)
 3. Building an **IOS** App and release on App Store
 
-## Timeframe
+### Timeframe
 | ID | Task | Start Date | End Date |
 | -- | ---- | -----------| ---------|
 | 1 | Thorough Wireframe    | May 3  | May 10 |
@@ -53,7 +57,7 @@ Finance for outsiders can be confusing, and the traditional way of interacting w
 | 5 | New features adding   | May 31 | June 7 | 
 | 6 | Test & Marketing      | June 7 | June 13|
 
-## Monitoring and Evaluation
+### Monitoring and Evaluation
 For every task above, the corresponding evaluation could be:
 1. A **PDF file** that clearly demonstrated the development process of the whole app.
 2. A local **LLM** that can chat about finance in general, and can analyze bank statement.
@@ -61,3 +65,17 @@ For every task above, the corresponding evaluation could be:
 4. Depends on the progress, I will either deliver an UI using Streamlit or React.
 5. If the product is done at this stage, I will share the product in OIT slack channel and my friends.
 
+## AI model
+- [AdaptLLM/finance-chat](https://huggingface.co/AdaptLLM/finance-chat)
+- gpt-3.5-turbo-0125(At the moment, only fine-tuned versions of gpt-3.5-turbo-0125 are supported.)
+
+## Data Collection
+Right I'm using my own bank statements to feed the model, and use GPT-4-Turbo assistant as the model for th initial testing. 
+
+## Data Storage
+We can manually retrieve the bank statement and other data and store the previous one in the database for direct usage, and every month after the new bank statements gets issued, that's when the API needs to retrieve the new bank statement and append them to our database.
+1. [OpenAI vector store](https://platform.openai.com/docs/assistants/tools/file-search/creating-vector-stores-and-adding-files)
+
+## Resources
+1. [OpenAI-Python Streaming Helpers](https://github.com/openai/openai-python/blob/main/helpers.md)
+2. [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview?lang=python)
