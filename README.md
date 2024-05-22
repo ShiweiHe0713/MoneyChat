@@ -76,6 +76,11 @@ Right I'm using my own bank statements to feed the model, and use GPT-4-Turbo as
 We can manually retrieve the bank statement and other data and store the previous one in the database for direct usage, and every month after the new bank statements gets issued, that's when the API needs to retrieve the new bank statement and append them to our database.
 1. [OpenAI vector store](https://platform.openai.com/docs/assistants/tools/file-search/creating-vector-stores-and-adding-files)
 
+## Working prompt
+Search all files, and find me the most significant single transaction from "Withdrawals and other subtractions" 
+        from 2024-02-1 to 2024-04-30,
+        And tell me why is it the biggest expense, and report your timeframe for your search.
+
 ## Resources
 1. [OpenAI-Python Streaming Helpers](https://github.com/openai/openai-python/blob/main/helpers.md)
 2. [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview?lang=python)

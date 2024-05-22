@@ -1,0 +1,5 @@
+- [x] ~~Store the files somewhere so the program doens't have to anaylyse them every time~~
+  - We only have to vectorize the files once for all
+- [ ] Clean up the repetitive vector stores
+- [ ] Find out why GPT gives differnt answers each time
+- [ ] Should I add history and context to the message?
