@@ -7,9 +7,10 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI(api_key=OPENAI_API_KEY)
+vector_store_id = "vs_xUvURyFMrSt4jMpu4gQ0ckmj"
 
 assistant = client.beta.assistants.create(
-    name="MoneyChat",
+    name="MoneyChat2",
     instructions=
         """
             You are a personal finance helper to analyze statments, bills and give suggestions.
@@ -19,8 +20,8 @@ assistant = client.beta.assistants.create(
             negative numbers means outgoing money.
         """,
     tools=[{"type": "file_search"}],
-    model="gpt-4-turbo-preview",
-    tool_resources={"file_search": {"vector_store_ids": ["vs_BAaa7AyNMdawd3TI9wUU3X9j"]}},
+    model="gpt-4o",
+    tool_resources={"file_search": {"vector_store_ids": [vector_store_id]}},
 )
 
 # Create a thread
@@ -32,21 +33,23 @@ messages = client.beta.threads.messages.create(
     thread_id=thread.id,
     role="user",
     content="""
-        What are the sum of transations listed under "withdrawl and subtraction" from 2024-02-01 to 2024-03-31?
+        Only search these two files: eStmt_2024-03-20 (1).pdf, eStmt_2024-03-22 (1).pdf, 
+        Identify and tell me the transations listed under "withdrawl and subtraction", 
+        and then give me the total withdrawal and subtraction amount, and tell what files have you searched?
         """,
 )
-
-def delete_file_vector_store():
-  client.beta.vector_stores.
-
-
 # Then, we use the `stream` SDK helper 
 # with the `EventHandler` class to create the Run 
 # and stream the response.
-with client.beta.threads.runs.stream(
+stream = client.beta.threads.runs.stream(
   thread_id=thread.id,
   assistant_id=assistant.id,
   instructions="Please address the user as Calvin He. The user has a premium account.",
-  event_handler=EventHandler(),
-) as stream:
-  stream.until_done()
+  event_handler=EventHandler()
+)
+
+if stream is None:
+    print("The stream is None")
+else:
+    with stream as s:
+        s.until_done()

@@ -12,12 +12,12 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 headers = {
         "Authorization": f"Bearer {OPENAI_API_KEY}", 
         "Content-Type": "application/json", 
-        "OpenAI-Beta": "assistants=v2",
+        "OpenAI-Beta": "assistants=v1",
 }
 
 def list_all_files():
     url = "https://api.openai.com/v1/vector_stores/"
-
+    
     response = requests.get(url, headers=headers)
     try:
         data = response.json()
