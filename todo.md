@@ -1,5 +1,4 @@
 ## Doing
-- [ ] Read csv from AWS
 - [ ] perform query on the db file
 
 ---
@@ -9,6 +8,7 @@
 - [x] ~~Clean up the repetitive vector stores~~
 - [x] ~~开始构建后端的请求（根据草稿纸）~~
 - [x] Transfer file to AWS 
+- [x] ~~Read csv from AWS~~
 
 
 ## Archived
