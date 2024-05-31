@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config()
 
 const url = 'https://api-sb.bofa.com/cashpro/reporting/v1/transaction-inquiries/current-day';
 const ACCOUNT_NAME = '483102030472';

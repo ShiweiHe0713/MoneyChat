@@ -161,5 +161,4 @@ cython_debug/
 
 docs/boa/
 archived/
-test/
 node_modules/
