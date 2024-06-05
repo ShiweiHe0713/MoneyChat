@@ -76,9 +76,9 @@ async function readFile(bucketName, key) {
                 })
                 .on('end', () => {
                     // const entries = queryTransactionsOnAmount(result, '100');
-                    const entries = queryTransactionsByDate(result, '9/11/2023');
-                    console.log('Result entries: ', entries);
-                    // console.log("result csv: ", result)
+                    // const entries = queryTransactionsByDate(result, '9/11/2023');
+                    // console.log('Result entries: ', entries);
+                    console.log("result csv: ", result)
                 })
                 .on('error', () => {
                     console.error('Error parsing the CSV: ', error);

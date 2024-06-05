@@ -1,10 +1,20 @@
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+import boto3
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 client = OpenAI(api_key=OPENAI_API_KEY)
+session = boto3.Session(
+    aws_access_key_id=os.getenv("aws_access_key"),
+    aws_secret_access_key = os.getenv("aws_access_secret"),
+    region_name="us-east-1"
+)
+
+s3_resource = session.resource('s3')
+
 
 def store_directory(directory = "docs/boa/"):
     vector_store = client.beta.vector_stores.create(name="Financial Statement")
@@ -45,4 +55,5 @@ def store_single_file(path):
 vector_store_files = client.beta.vector_stores.files.list(
   vector_store_id="vs_6T4ZruLM0TAZi9RucFnSqO4E"
 )
+
 print(vector_store_files)

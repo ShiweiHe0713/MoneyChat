@@ -84,3 +84,17 @@ Search all files, and find me the most significant single transaction from "With
 ## Resources
 1. [OpenAI-Python Streaming Helpers](https://github.com/openai/openai-python/blob/main/helpers.md)
 2. [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview?lang=python)
+
+# Second Phase
+After the attempt to connect to Bank of America API fails, I try to shift my focus on make the user interact with the excel sheet of our transactions. The procedures are:
+1. The users download the transaction history from their banks(We use BofA as demo here.)
+2. The user upload their csv/xlsx files to our system through the UI.
+3. We take the csv file and 
+   - Convert the documents into a structured format (e.g., JSON).
+   - Read the file content and format it as a string.
+   - Send the string to the OpenAI API to generate insights or responses.
+
+Some other attempts:
+I firstly use GPT Assistant to do the AI interaction, but it's not very customizable, so I refactor the code into using raw OpenAI API.
+
+The Assistant has attachign file feature, but we have to interact with the vector stores to play with the files.

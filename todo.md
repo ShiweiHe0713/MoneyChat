@@ -1,4 +1,6 @@
 ## Doing
+- [ ] 把读到的导入GPT.py进行解析
+- [ ] Refactor the csv 
 - [ ] perform query on the db file
 
 ---

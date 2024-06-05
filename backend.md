@@ -1,1 +1,2 @@
 - [Amazon S3 examples using SDK for JavaScript (v3)](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/javascript_s3_code_examples.html)
+- Create IAM user and generate keys to create a s3 client in both python and javascript

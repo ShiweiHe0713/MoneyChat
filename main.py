@@ -33,9 +33,7 @@ messages = client.beta.threads.messages.create(
     thread_id=thread.id,
     role="user",
     content="""
-        Only search these two files: eStmt_2024-03-20 (1).pdf, eStmt_2024-03-22 (1).pdf, 
-        Identify and tell me the transations listed under "withdrawl and subtraction", 
-        and then give me the total withdrawal and subtraction amount, and tell what files have you searched?
+        
         """,
 )
 # Then, we use the `stream` SDK helper 
