@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with OpenAI</title>
+</head>
+<body>
+    <h1>Chat with OpenAI</h1>
+    <input type="text" id="userMessage" placeholder="Type your message here...">
+    <button onclick="sendMessage()">Send</button>
+    <div id="chatbox"></div>
+
+    <script>
+        async function sendMessage() {
+            const userMessage = document.getElementById("userMessage").value;
+            const response = await fetch("http://127.0.0.1:5000/get_openai_response", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                    
+                },
+                body: JSON.stringify({ message: userMessage })
+            });
+
+            const data = await response.json();
+            const chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += `<p>User: ${userMessage}</p>`;
+            chatbox.innerHTML += `<p>AI: ${data.response}</p>`;
+        }
+    </script>
+</body>
+</html>

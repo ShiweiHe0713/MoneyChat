@@ -1,7 +1,8 @@
 # https://chatgpt.com/c/6a20deaf-cb35-41ce-9aa1-23dd55bde40b
 # Finish the code according to the sample code above
 import flask
-from flask import Flask, jsonify, Response
+from flask_cors import CORS
+from flask import Flask, jsonify, Response, render_template
 from typing import List, Dict, Tuple, Any
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -11,25 +12,26 @@ import os
 
 load_dotenv()
 app = Flask(__name__)
+CORS(app)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY)
 message_history = [{'role': 'system', 'content': 'You are a personal finance assistant'}]
 
 @app.route('/')
 def home_page():
-    return "The flask app is up and running!"
+    return render_template('index.html')
 
-@app.route('/get_openai_response', methods=['GET'])
+@app.route('/get_openai_response', methods=['POST'])
 def get_response() -> Response:
     try:
-        # Take the request message send it to chat_bot and get the response return it back to frontend
-        data = flask.reqeust.get_json()
+        data = flask.request.get_json()
         new_message = data.get('message')
         global message_history
-        response_content, message_history = chat_bot(new_message, message_history)
-        return jsonify({"Response": response_content, "message_history": message_history}), 200
+        response, message_history = chat_bot(new_message, message_history)
+        return jsonify({'response': response, 'message_history': message_history}), 200
     except Exception as e:
-        return jsonify({"Error occur": str(e)}), 500
+        return jsonify({'error': str(e)}), 500
+
     
 def chat_bot(message, message_history):
     """
