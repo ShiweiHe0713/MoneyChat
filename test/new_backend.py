@@ -1,69 +1,58 @@
+# https://chatgpt.com/c/6a20deaf-cb35-41ce-9aa1-23dd55bde40b
+# Finish the code according to the sample code above
+import flask
+from flask import Flask, jsonify, Response
+from typing import List, Dict, Tuple, Any
+from dotenv import load_dotenv
 from openai import OpenAI
-from flask import Flask, jsonify
 import requests
 import json
-from dotenv import load_dotenv
 import os
 
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-print(OPENAI_API_KEY)
 app = Flask(__name__)
-client = OpenAI(
-    api_key=OPENAI_API_KEY
-)
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY)
+message_history = [{'role': 'system', 'content': 'You are a personal finance assistant'}]
 
-@app.route("/")
+@app.route('/')
 def home_page():
-    return "Flask app is up and running!"
+    return "The flask app is up and running!"
 
-# Todo: How to keep the app running with the GPT Chat
-@app.route("/get_openai_response", methods=['GET'])
-def get_data():
-    url = 'https://api.openai.com/v1/chat/completions'
-
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {OPENAI_API_KEY}',
-    }
-    data = {
-        "model": "gpt-4o",
-        "messages": [{"role": "user", "content": "Say this is a test!"}],
-        "temperature": 0.7
-    }
-
+@app.route('/get_openai_response', methods=['GET'])
+def get_response() -> Response:
     try:
-        response = requests.post(url, headers=headers, data=json.dumps(data))
-        if response.status_code == 200:
-            return jsonify(response.json())
-        else:
-            return jsonify({"error": "Failed to retrieve data", "status_code": response.status_code, "response": response.text}), response.status_code
+        # Take the request message send it to chat_bot and get the response return it back to frontend
+        data = flask.reqeust.get_json()
+        new_message = data.get('message')
+        global message_history
+        response_content, message_history = chat_bot(new_message, message_history)
+        return jsonify({"Response": response_content, "message_history": message_history}), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-def chat_bot(new_message, message_history):
-    message_history.append({'role':'user', 'content':new_message})
-
-    stream = client.chat.completions.create(
-        model='gpt-4o',
-        messages=message_history,
-        stream=True
-    )
-
-    response_content = ""
-    for chunk in stream:
-        if chunk.choices[0].delta.content is not None:
-            response_content += chunk.choices[0].delta.content
-            print(chunk.choices[0].delta.content, end="")
+        return jsonify({"Error occur": str(e)}), 500
     
-    message_history.append({'role':'system', 'content':response_content})
-    return response_content, message_history
-    
+def chat_bot(message, message_history):
+    """
+    Input: str, List[str]
+    Output: str, List[str]
+    """
+    message_history.append({'role': 'user', 'content': message})
+    try:
+        response = client.chat.completions.create(
+            messages=message_history,
+            model='gpt-4o',
+            stream=True,
+        )
+
+        response_content = ""
+        for chunk in response:
+            if chunk and chunk.choices[0].delta.content:
+                response_content += chunk.choices[0].delta.content
+        message_history.append({'role': 'system', 'content': response_content})
+
+        return response_content, message_history
+    except Exception as e:
+        print({"error": e}), 500
+
 if __name__ == "__main__":
     app.run(debug=True)
-    message_history = [{"role": "system", "content": "You are a helpful assistant."}]
-    new_message="Are you good?"
-    response, message_history = chat_bot(new_message, [])
-    
-    for message in message_history:
-        print (f'\n{message}\n')
