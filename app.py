@@ -25,14 +25,17 @@ def home_page():
 def get_response() -> Response:
     try:
         data = flask.request.get_json()
-        new_message = data.get('message')
+        new_message = data.get('messages')
+
+        if not new_message:
+            return jsonify({'Error': 'No message provided'}), 400
+        
         global message_history
         response, message_history = chat_bot(new_message, message_history)
         return jsonify({'response': response, 'message_history': message_history}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-    
 def chat_bot(message, message_history):
     """
     Input: str, List[str]
@@ -55,6 +58,7 @@ def chat_bot(message, message_history):
         return response_content, message_history
     except Exception as e:
         print({"error": e}), 500
+        raise
 
 if __name__ == "__main__":
     app.run(debug=True)

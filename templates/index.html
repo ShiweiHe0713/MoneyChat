@@ -1,31 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Chat with OpenAI</title>
-</head>
-<body>
-    <h1>Chat with OpenAI</h1>
-    <input type="text" id="userMessage" placeholder="Type your message here...">
-    <button onclick="sendMessage()">Send</button>
-    <div id="chatbox"></div>
-
-    <script>
-        async function sendMessage() {
-            const userMessage = document.getElementById("userMessage").value;
-            const response = await fetch("http://127.0.0.1:5000/get_openai_response", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                    
-                },
-                body: JSON.stringify({ message: userMessage })
-            });
-
-            const data = await response.json();
-            const chatbox = document.getElementById("chatbox");
-            chatbox.innerHTML += `<p>User: ${userMessage}</p>`;
-            chatbox.innerHTML += `<p>AI: ${data.response}</p>`;
-        }
-    </script>
-</body>
+    <head>
+        <title>OpenAI Chat</title>
+        <meta charset="utf-8">
+        <meta name="description" content="This is the financial chat AI bot">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <h1>MoneyChat 💵 </h1>
+        <input type="text" id="userMessage" placeholder="Type here..."/>
+        <button onclick="sendMessage()">✅</button>
+        <div id="chat-box" style="background-color: bisque;"></div>
+        <script type="text/javascript" src="script.js"></script>
+    </body>
 </html>
