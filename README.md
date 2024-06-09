@@ -98,3 +98,5 @@ Some other attempts:
 I firstly use GPT Assistant to do the AI interaction, but it's not very customizable, so I refactor the code into using raw OpenAI API.
 
 The Assistant has attachign file feature, but we have to interact with the vector stores to play with the files.
+
+- User upload their file through POST -> receive file on the server -> pass on file to GPT

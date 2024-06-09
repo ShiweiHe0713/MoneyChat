@@ -9,9 +9,19 @@
     </head>
     <body>
         <h1>MoneyChat 💵 </h1>
-        <input type="text" id="userMessage" placeholder="Type here..."/>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" id="userFile" name="file"/><br>
+            <button type="button" onclick="uploadFile()">Upload</button>
+        </form>
+        
+        <button>Expense Pie chart of {whichMonth} month</button><br>
+        <button>Monthly expense trend</button>
+        
+        <!-- ChatBox -->
+        <!-- <input type="text" id="userMessage" placeholder="Type here..."/>
         <button onclick="sendMessage()">✅</button>
-        <div id="chat-box" style="background-color: bisque;"></div>
+        <div id="chat-box" style="background-color: bisque;"></div> -->
+
         <script type="text/javascript" src="script.js"></script>
     </body>
 </html>

@@ -1,20 +1,25 @@
 # https://chatgpt.com/c/6a20deaf-cb35-41ce-9aa1-23dd55bde40b
 # Finish the code according to the sample code above
+import os
 import flask
 from flask_cors import CORS
-from flask import Flask, jsonify, Response, render_template
+from flask import Flask, jsonify, request, Response, render_template
 from typing import List, Dict, Tuple, Any
 from dotenv import load_dotenv
 from openai import OpenAI
 import requests
 import json
-import os
+import pandas as pd
+import numpy as np
+import openpyxl
 
 load_dotenv()
 app = Flask(__name__)
 CORS(app)
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY)
+
 message_history = [{'role': 'system', 'content': 'You are a personal finance assistant'}]
 
 @app.route('/')
@@ -24,7 +29,7 @@ def home_page():
 @app.route('/get_openai_response', methods=['POST'])
 def get_response() -> Response:
     try:
-        data = flask.request.get_json()
+        data = request.get_json()
         new_message = data.get('messages')
 
         if not new_message:
@@ -60,5 +65,53 @@ def chat_bot(message, message_history):
         print({"error": e}), 500
         raise
 
+@app.route('/upload', methods=['POST'])
+def uploadFile():
+    try:
+        file = request.files['file']
+        if file:
+            file_path = os.path.join('upload', file.filename)
+            file.save(file_path)
+            
+            with open('file_path', 'r') as f:
+                file_contents = f.read()
+                df = pd.read_csv(file_contents)
+                print(df.info)
+            return jsonify({ 'success': f'File ${file.filename} uploaded successfully!' }), 200
+        else:
+            print("File doesn't exist")
+    except Exception as e:
+        return jsonify({ 'Error': f'${e}' }), 500
+    
+# @app.route('/upload', methods=['POST'])
+# def upload_file():
+#     try:
+#         if 'file' not in request.files:
+#             return jsonify({'error': 'No file part'}), 400
+
+#         file = request.files['file']
+
+#         if file.filename == '':
+#             return jsonify({'error': 'No selected file'}), 400
+
+#         if file:
+#             if not os.path.exists('upload'):
+#                 os.makedirs('upload')
+#             file_path = os.path.join('upload', file.filename)
+#             file.save(file_path)
+#             print(f'File saved at {file_path}')
+
+#             # Read the file contents if needed
+#             with open(file_path, 'r') as f:
+#                 file_contents = f.read()
+#                 df = pd.read_csv(file_path)
+#                 print(df.info())
+
+#             return jsonify({'success': f'File {file.filename} uploaded and read successfully!'}), 200
+#         else:
+#             print("File doesn't exist")
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
+        
 if __name__ == "__main__":
     app.run(debug=True)
