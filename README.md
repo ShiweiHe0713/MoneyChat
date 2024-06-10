@@ -106,13 +106,25 @@ The Assistant has attachign file feature, but we have to interact with the vecto
 
 ### Features
 1. The user upload their csv files
-2. User can view a certain month expense by category
-3. User can view their expenses trend for the last 6 months
-4. (Upcoming feature) User can chat with AI about file 
+2. User can chat with AI about file 
+3. User can view a certain month expense by category
+4. User can view their expenses trend for the last 6 months
 
 ### Main achievements
-1. User can chat with the bot
-2. Backend function to take in csv
-3. Using pandas to process the csv
-4. Build a front-end app
-5. Styling the UI design
+1. Build the backend for Chat Bot
+3. Backend functions to recieve the file, visualize data
+4. Using pandas to process the csv
+5. Build a front-end React app(Ongoing)
+6. Styling the UI design(Ongoing)
+
+### Todos
+- [ ] AI bot debug
+  - [ ] The conversation is not consistent 
+  - [ ] User can only start chatting after the file is uploaded
+- [ ] Migrate the plain HTML to React.js
+- [ ] Adjust the backend `app.py` for the new React app
+- [ ] Adjust the styling for the frontend
+
+#### Maybe
+- [ ] PieChart code 
+- [ ] Trend code
