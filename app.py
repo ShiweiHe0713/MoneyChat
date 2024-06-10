@@ -53,7 +53,7 @@ def chat_bot(message, message_history):
             model='gpt-4o',
             stream=True,
         )
-
+        
         response_content = ""
         for chunk in response:
             if chunk and chunk.choices[0].delta.content:
@@ -72,17 +72,59 @@ def uploadFile():
         if file:
             file_path = os.path.join('upload', file.filename)
             file.save(file_path)
-            
-            with open('file_path', 'r') as f:
-                file_contents = f.read()
-                df = pd.read_csv(file_contents)
-                print(df.info)
+
+            df = pd.read_csv(file_path)
+
+            # convert dataframe to string(csv or json)
+            df_string = df.to_csv(index=False)
+
+            message_history[0]["content"] += "Here are the file content of the user's transaction history, and the user is going to ask question about it. "
+            message_history[0]["content"] += df_string
+
             return jsonify({ 'success': f'File ${file.filename} uploaded successfully!' }), 200
         else:
-            print("File doesn't exist")
+            print("No file uploaded")
+            return jsonify({"error": "No file uploaded"}), 400
     except Exception as e:
         return jsonify({ 'Error': f'${e}' }), 500
-    
+
+@app.route('/piechart', methods=['POST'])
+def pie_chart():
+    # Retrive the file somewhere
+    try:
+        month = 3
+        df = pd.read_csv('upload/checking.csv')
+        df['Date'] = pd.to_datetime(df['Date'])
+        # Query that month
+        df['Month'] = pd.Timestamp()
+        monthly_data = df[df['Month'] == 3]
+        response = jsonify(monthly_data)
+        return response, 200
+    except Exception as e:
+        return jsonify({ 'Error': f'Error ${e} getting the pie chart' }), 500
+  
+@app.route('/trend', methods=['Post'])
+def trend():
+    """Set the default length to the past 6 months"""
+    try:
+        window = 6
+        hash = {}
+        # suppose to be a line chart, x-y: month-expense
+        # should return a json object containting 6 k-v pairs
+        # key is month, value is expenese
+        # Have to sum up the each month in a new df
+        c = get_month()
+        for i in 6:
+            cur = df[df['month'] == c - i]
+            cur['Total'] = cur['Amount'].sum()
+            hash[c-i] = cur['Total']
+        return jsonify(hash)
+    except Exception as e:
+        return jsonify({ 'Error': f'Error ${e} retrieving the trend' }), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
 # @app.route('/upload', methods=['POST'])
 # def upload_file():
 #     try:
@@ -113,5 +155,3 @@ def uploadFile():
 #     except Exception as e:
 #         return jsonify({'error': str(e)}), 500
         
-if __name__ == "__main__":
-    app.run(debug=True)

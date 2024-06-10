@@ -100,3 +100,19 @@ I firstly use GPT Assistant to do the AI interaction, but it's not very customiz
 The Assistant has attachign file feature, but we have to interact with the vector stores to play with the files.
 
 - User upload their file through POST -> receive file on the server -> pass on file to GPT
+
+- Use Vite to create the front-end app.
+- Use pandas and numpy to do the query and graph visualization
+
+### Features
+1. The user upload their csv files
+2. User can view a certain month expense by category
+3. User can view their expenses trend for the last 6 months
+4. (Upcoming feature) User can chat with AI about file 
+
+### Main achievements
+1. User can chat with the bot
+2. Backend function to take in csv
+3. Using pandas to process the csv
+4. Build a front-end app
+5. Styling the UI design
